@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster : MonoBehaviour
 {
+    [SerializeField] private HPbar hpBar;
     [SerializeField] private float maxHP;
+    [SerializeField] private Text nameText;
+    [SerializeField] private string monsterName;
+    private Animator animator;
     private float curHP;
 
     private bool isDead = false;
@@ -12,6 +17,8 @@ public class Monster : MonoBehaviour
     private void Awake()
     {
         curHP = maxHP;
+        animator = GetComponent<Animator>();
+        nameText.text = monsterName;
     }
 
     public void OnHit(float damage)
@@ -23,23 +30,14 @@ public class Monster : MonoBehaviour
             isDead = true;
         }
         Debug.Log("Slime Hit!, Current HP : " + curHP);
+        hpBar.ChangeHpBarAmount(curHP / maxHP);
+        animator.SetTrigger("Hit");
 
         if (isDead)
         {
             Debug.Log("Slime is Dead");
+            animator.SetTrigger("Death");
             Destroy(gameObject, 1.5f);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

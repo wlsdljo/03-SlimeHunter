@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Build.Content;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,12 +8,15 @@ public class Monster : MonoBehaviour
 {
     [SerializeField] private HPbar hpBar;
     [SerializeField] private float maxHP;
+    private bool isDead = false;
+
     [SerializeField] private Text nameText;
     [SerializeField] private string monsterName;
     private Animator animator;
-    private float curHP;
+    public float curHP;
 
-    private bool isDead = false;
+    [SerializeField] public float getGold;
+    public float curGold;
 
     private void Awake()
     {
@@ -37,6 +41,7 @@ public class Monster : MonoBehaviour
         {
             Debug.Log("Slime is Dead");
             animator.SetTrigger("Death");
+            curGold += getGold;
             Destroy(gameObject, 1.5f);
         }
     }
